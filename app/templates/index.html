@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Enviar E-mail — Automação</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-expand navbar-transparent px-3">
+        <ul class="navbar-nav align-items-center">
+
+            <li class="nav-item mx-2">
+                <a class="nav-link nav-icon" href="#" id="composeLink" title="Escrever E-mail">
+                    <i class="bi bi-pencil-fill"></i>
+                </a>
+            </li>
+
+            <li class="nav-item mx-2">
+                <a class="nav-link nav-icon" href="#" id="historyLink" title="Histórico de Envios">
+                    <i class="bi bi-clock-history"></i>
+                </a>
+            </li>
+
+            <!-- futuros ícones aqui -->
+
+        </ul>
+    </nav>
+
+    <div id="formSection">
+        <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class="card shadow-sm w-100" style="max-width: 480px;">
+
+
+                <div class="card-body">
+
+                    <form id="emailForm" enctype="multipart/form-data">
+
+                        <div class="mb-3">
+                            <label class="form-label">Destinatário</label>
+                            <input type="email" name="recipient" class="form-control" placeholder="exemplo@dominio.com"
+                                required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Assunto</label>
+                            <input type="text" name="subject" class="form-control" placeholder="Assunto do e-mail"
+                                required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Mensagem</label>
+                            <textarea name="body" rows="5" class="form-control" placeholder="Escreva sua mensagem..."
+                                required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Anexo (opcional)</label>
+                            <input type="file" name="attachment" class="form-control" />
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Enviar
+                        </button>
+
+                        <div id="statusMessage" class="text-center"></div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="historySection" class="d-flex justify-content-center align-items-center vh-100" style="display:none;">
+        <div class="card shadow-sm w-100" style="max-width: 640px;">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Histórico de Envios</h5>
+
+                <div id="historyPills" class="d-flex flex-column gap-2">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f6f8fa;
+            color: #24292f;/
+        }
+
+        .card {
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            background: #ffffff;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #24292f;
+        }
+
+        .btn-primary {
+            background-color: #2da44e;
+            border-color: #2da44e;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background-color: #2c974b;
+            border-color: #2c974b;
+        }
+
+        #statusMessage>div {
+            font-size: 0.95rem;
+            margin-top: 10px;
+        }
+
+        .alert {
+            border-radius: 6px;
+        }
+
+        .text-success {
+            color: #22863a !important;
+        }
+
+        .text-danger {
+            color: #cf222e !important;
+        }
+
+        .navbar-transparent {
+            background-color: transparent !important;
+            box-shadow: none;
+            border: none;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Itens da navbar */
+
+        /* Ícone com fundo circular e sombra arredondada */
+        .nav-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 2.5rem;
+            /* largura do círculo */
+            height: 2.5rem;
+            /* altura do círculo */
+            border-radius: 50%;
+            /* torna o contêiner circular */
+            background-color: transparent;
+
+            transition: transform 0.15s ease,
+                box-shadow 0.25s ease,
+                background-color 0.2s ease;
+        }
+
+        .nav-icon:hover {
+
+
+            box-shadow: 6px 6px 21px rgba(0, 0, 0, 0.20);
+        }
+
+        /* Ícone em si (tamanho e cor) */
+        .nav-icon i {
+            font-size: 1.4rem;
+            color: #333;
+        }
+
+        .history-pill {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.65rem 1rem;
+            border-radius: 1rem;
+            background-color: #f1f3f5;
+            /* tom neutro leve */
+            font-size: 0.95rem;
+            transition: background-color 0.2s ease;
+        }
+
+        .history-pill:hover {
+            background-color: #e2e6ea;
+            /* realce sutil */
+        }
+
+        .pill-primary {
+            background-color: #dbe5f1;
+            color: #1c4e80;
+        }
+
+        .pill-success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .pill-error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+
+
+
+    <script>
+        const form = document.getElementById("emailForm");
+        const statusDiv = document.getElementById("statusMessage");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            statusDiv.innerHTML = `
+                    <div class="text-info">
+                    <div class="spinner-border spinner-border-sm text-info" role="status"></div>
+                    <span class="ms-2">Enviando...</span>
+                    </div>
+                `;
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch("/send_ajax", {
+                    method: "POST", body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    statusDiv.innerHTML = `
+                        <div class="d-flex align-items-center justify-content-center text-success">
+                            <i class="bi bi-check-circle-fill me-2" style="font-size: 1.4rem;"></i>
+                            <span>${result.message}</span>
+                        </div>
+                        `;
+
+                    form.reset();
+                } else {
+                    statusDiv.innerHTML = `
+                        <div class="d-flex align-items-center justify-content-center text-danger">
+                            <i class="bi bi-x-circle-fill me-2" style="font-size: 1.4rem;"></i>
+                            <span>${result.message}</span>
+                        </div>
+                        `;
+
+                }
+
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div class="text-danger d-flex align-items-center justify-content-center">
+                        <i class="bi bi-x-circle-fill fs-3"></i>
+                        <span class="ms-2">Erro ao enviar: ${error.message}</span>
+                    </div>
+                    `;
+            }
+        });
+
+        async function loadHistory() {
+            try {
+                const response = await fetch("/history_data");
+                const result = await response.json();
+
+                const container = document.getElementById("historyPills");
+                container.innerHTML = "";
+
+                if (!result.success || result.history.length === 0) {
+                    container.innerHTML = `<div class="text-center text-muted">Nenhum envio encontrado.</div>`;
+                } else {
+                    result.history.forEach(log => {
+                        let statusClass = log.status === "Enviado" ? "pill-success" : "pill-error";
+
+                        container.innerHTML += `
+          <div class="history-pill ${statusClass}">
+            <div>
+              <strong>${log.recipient}</strong><br />
+              <small>${log.subject} — ${log.timestamp}</small>
+            </div>
+            <span class="badge ${log.status === "Enviado" ? "bg-success" : "bg-danger"}">
+              ${log.status}
+            </span>
+          </div>
+        `;
+                    });
+                }
+
+                document.getElementById("historySection").style.display = "block";
+            } catch (err) {
+                console.error(err);
+                container.innerHTML = `
+      <div class="text-center text-danger">Erro ao carregar dados.</div>
+    `;
+                document.getElementById("historySection").style.display = "block";
+            }
+        }
+
+        document.getElementById("composeLink").addEventListener("click", (e) => {
+            e.preventDefault();
+
+            document.getElementById("formSection").style.display = "block";
+
+
+            document.getElementById("historySection").style.display = "none";
+        });
+
+
+        document.getElementById("historyLink").addEventListener("click", (e) => {
+            e.preventDefault();
+            loadHistory();
+            document.getElementById("formSection").style.display = "none";
+        });
+    </script>
+
+
+</body>
+
+</html>
