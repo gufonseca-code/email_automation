@@ -13,8 +13,8 @@ Guia rápido para clonar, configurar e executar este projeto (Python/Flask).
 Substitua o URL pelo repositório real.
 
 ```bash
-git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
-cd SEU_REPOSITORIO
+git clone https://github.com/gufonseca-code/email_automation.git
+cd email_automation
 ```
 
 ## Criar e ativar ambiente virtual
